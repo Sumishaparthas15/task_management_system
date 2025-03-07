@@ -14,6 +14,8 @@ from rest_framework.views import APIView
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
+from rest_framework.throttling import UserRateThrottle
 
 User = get_user_model()
 
@@ -28,7 +30,11 @@ class TaskPagination(PageNumberPagination):
     page_size = 10
 
 # List & Create Task
-@method_decorator(cache_page(60 * 15), name="dispatch") 
+
+# Apply caching only for GET requests
+@method_decorator(cache_page(60 * 15), name="get")  
+# Apply rate limiting only for POST requests
+@method_decorator(ratelimit(key="user", rate="5/m", method="POST", block=True), name="post")  
 class TaskListCreateView(generics.ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
@@ -48,6 +54,7 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.filter(is_deleted=False)  # Filter out deleted tasks
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated, IsManagerOrAssignedUser]
+    throttle_classes = [UserRateThrottle] 
 
     def perform_destroy(self, instance):
         """Soft delete task"""
