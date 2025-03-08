@@ -16,6 +16,11 @@ from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django_ratelimit.decorators import ratelimit
 from rest_framework.throttling import UserRateThrottle
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
 
 User = get_user_model()
 
@@ -63,9 +68,11 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
         instance.save()
 
 # List Comments for a Task
+@method_decorator(csrf_exempt, name='dispatch')
 class TaskCommentListCreateView(generics.ListCreateAPIView):
     serializer_class = TaskCommentSerializer
     permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
         task_id = self.kwargs["task_id"]
@@ -74,4 +81,3 @@ class TaskCommentListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         task = get_object_or_404(Task, id=self.kwargs["task_id"])
         serializer.save(task=task, author=self.request.user)
-

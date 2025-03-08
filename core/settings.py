@@ -36,7 +36,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -112,8 +112,8 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.AnonRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'user': '100/day',  # Authenticated users can make 100 requests per day
-        'anon': '10/hour',  # Unauthenticated users can make 10 requests per hour
+        'anon': '10/minute',  # Change this if needed
+        'user': '1000/day'
     }
 }
 
@@ -141,3 +141,22 @@ EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'True'
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+# SWAGGER_SETTINGS = {
+#     "SECURITY_DEFINITIONS": {
+#         "Bearer": {
+#             "type": "apiKey",
+#             "name": "Authorization",
+#             "in": "header",
+#             "description": "Enter: **Bearer &lt;your_token&gt;**"
+#         }
+#     },
+#     "USE_SESSION_AUTH": False,
+# }
+CORS_ALLOW_ALL_ORIGINS = True  # ✅ Allow all origins (for development)
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000"]
+CORS_ALLOWED_ORIGINS = [
+   
+    "http://127.0.0.1:8000",  # API Backend
+]

@@ -24,3 +24,4 @@ class TaskCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskComment
         fields = '__all__'
+        read_only_fields = ['task', 'author'] 
