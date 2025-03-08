@@ -1,0 +1,56 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0
+django: version: 5.1.7, settings: core.settings (from env)
+rootdir: /home/sumisha/python/task_management_system
+plugins: django-4.10.0, cov-6.0.0
+collected 6 items
+
+tasks/tests/test_authentication.py .                                     [ 16%]
+tasks/tests/test_models.py ..                                            [ 50%]
+tasks/tests/test_serializers.py .                                        [ 66%]
+tasks/tests/test_views.py ..                                             [100%]
+
+=============================== warnings summary ===============================
+tasks/tests/test_models.py::test_create_task
+tasks/tests/test_models.py::test_create_comment
+tasks/tests/test_serializers.py::test_task_serializer
+tasks/tests/test_views.py::test_get_tasks
+  /home/sumisha/python/task_management_system/venv/lib/python3.10/site-packages/django/db/models/fields/__init__.py:1665: RuntimeWarning: DateTimeField Task.due_date received a naive datetime (2025-03-10 00:00:00) while time zone support is active.
+    warnings.warn(
+
+tasks/tests/test_views.py::test_get_tasks
+  /home/sumisha/python/task_management_system/venv/lib/python3.10/site-packages/rest_framework/pagination.py:207: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'tasks.models.Task'> QuerySet.
+    paginator = self.django_paginator_class(queryset, page_size)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+---------- coverage: platform linux, python 3.10.12-final-0 ----------
+Name                                          Stmts   Miss  Cover
+-----------------------------------------------------------------
+tasks/__init__.py                                 0      0   100%
+tasks/admin.py                                    1      0   100%
+tasks/apps.py                                     4      0   100%
+tasks/migrations/0001_initial.py                  8      0   100%
+tasks/migrations/0002_task_taskcomment.py         6      0   100%
+tasks/migrations/0003_task_is_deleted.py          4      0   100%
+tasks/migrations/0004_alter_task_status.py        4      0   100%
+tasks/migrations/0005_auto_20250307_1827.py       4      0   100%
+tasks/migrations/__init__.py                      0      0   100%
+tasks/models.py                                  25      2    92%
+tasks/permissions.py                              8      4    50%
+tasks/serializers.py                             20      0   100%
+tasks/tasks.py                                    7      3    57%
+tasks/tests/__init__.py                           0      0   100%
+tasks/tests/conftest.py                           5      0   100%
+tasks/tests/test_authentication.py               13      1    92%
+tasks/tests/test_models.py                       19      0   100%
+tasks/tests/test_permissions.py                   0      0   100%
+tasks/tests/test_serializers.py                  14      0   100%
+tasks/tests/test_views.py                        24      0   100%
+tasks/tests/urls.py                               3      3     0%
+tasks/urls.py                                     5      0   100%
+tasks/views.py                                   57      7    88%
+-----------------------------------------------------------------
+TOTAL                                           231     20    91%
+
+======================== 6 passed, 5 warnings in 6.18s =========================
